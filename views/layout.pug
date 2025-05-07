@@ -1,0 +1,31 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Drawing App
+    link(rel="stylesheet", href="https://unpkg.com/mvp.css")
+    style.
+      canvas {
+        border: 1px solid var(--color-bg-secondary);
+        margin: 1rem 0;
+      }
+      .controls {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        margin: 1rem 0;
+      }
+      input[type="color"] {
+        width: 50px;
+        height: 30px;
+        padding: 0;
+        border: 1px solid var(--color-bg-secondary);
+      }
+      input[type="range"] {
+        width: 150px;
+      }
+
+  body
+    main
+      block content 
