@@ -1,4 +1,16 @@
 extends ../base.pug
 
-block content
+block style
+    style.
+        .canvas-container { margin:0; display:flex; flex-direction:column; align-items:center; height:100vh; }
+        canvas { border:1px solid #ccc; }
 
+
+block content
+    .canvas-container
+        canvas#c(width="600" height="600")
+
+
+block script
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.2.4/fabric.min.js")
+    script(src="/static/js/fabric.js")
