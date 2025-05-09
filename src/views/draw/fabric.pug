@@ -1,16 +1,37 @@
 extends ../base.pug
 
 block style
-    style.
-        .canvas-container { margin:0; display:flex; flex-direction:column; align-items:center; height:100vh; }
-        canvas { border:1px solid #ccc; }
-
+  style.
+    .controls {
+      margin-bottom: 10px;
+      display: flex;
+      gap: 8px;
+    }
+    button {
+      padding: 6px 12px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    canvas {
+      border: 1px solid #ccc;
+    }
+    .draw-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
 
 block content
+  .draw-container
+    .controls
+      button#btn-draw Draw
+      button#btn-clear Clear
     .canvas-container
-        canvas#c(width="600" height="600")
-
+      canvas#c
 
 block script
-    script(src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.2.4/fabric.min.js")
-    script(src="/static/js/fabric.js")
+  script(
+    src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.2.4/fabric.min.js"
+  )
+  script(src="/static/js/fabric-draw.js")
