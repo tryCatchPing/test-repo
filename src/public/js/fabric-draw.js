@@ -10,6 +10,8 @@ canvas.freeDrawingBrush.color = "#333";
 
 const penBtn = document.getElementById("btn-draw");
 const clearBtn = document.getElementById("btn-clear");
+const saveBtn = document.getElementById("btn-save");
+const loadBtn = document.getElementById("btn-load");
 
 penBtn.addEventListener("click", () => {
   canvas.isDrawingMode = !canvas.isDrawingMode;
@@ -22,4 +24,16 @@ clearBtn.addEventListener("click", () => {
   canvas.renderAll();
   canvas.isDrawingMode = false;
   penBtn.textContent = "🖊️ Pen Mode";
+});
+
+let json = "";
+
+saveBtn.addEventListener("click", () => {
+  json = JSON.stringify(canvas.toJSON());
+  console.log(json);
+});
+
+loadBtn.addEventListener("click", () => {
+  canvas.loadFromJSON(json);
+  canvas.renderAll();
 });
