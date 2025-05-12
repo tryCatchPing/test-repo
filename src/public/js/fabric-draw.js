@@ -1,8 +1,8 @@
 const canvas = new fabric.Canvas("c", {
   backgroundColor: "#fafafa",
   isDrawingMode: false,
-  width: 600,
-  height: 600,
+  width: 1000,
+  height: 1000,
 });
 
 canvas.freeDrawingBrush.width = 4;
@@ -12,6 +12,7 @@ const penBtn = document.getElementById("btn-draw");
 const clearBtn = document.getElementById("btn-clear");
 const saveBtn = document.getElementById("btn-save");
 const loadBtn = document.getElementById("btn-load");
+const messageEl = document.getElementById("message");
 
 penBtn.addEventListener("click", () => {
   canvas.isDrawingMode = !canvas.isDrawingMode;
@@ -26,14 +27,34 @@ clearBtn.addEventListener("click", () => {
   penBtn.textContent = "🖊️ Pen Mode";
 });
 
-let json = "";
-
-saveBtn.addEventListener("click", () => {
-  json = JSON.stringify(canvas.toJSON());
-  console.log(json);
+saveBtn.addEventListener("click", async () => {
+  const state = canvas.toJSON();
+  try {
+    const result = await (
+      await fetch("/draw/fabric/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ canvasState: state }),
+      })
+    ).json();
+    const { success } = result;
+    messageEl.textContent = success ? "✅ 저장 완료!" : "❌ 저장 실패…";
+  } catch (err) {
+    console.error(err);
+    messageEl.textContent = "⚠️ 네트워크 오류";
+  }
 });
 
-loadBtn.addEventListener("click", () => {
-  canvas.loadFromJSON(json);
-  canvas.renderAll();
+loadBtn.addEventListener("click", async () => {
+  try {
+    const { canvasState } = await (await fetch("/draw/fabric/load")).json();
+
+    canvas.loadFromJSON(canvasState, () => {
+      canvas.renderAll();
+      messageEl.textContent = "✅ 불러오기 완료";
+    });
+  } catch (err) {
+    console.error(err);
+    messageEl.textContent = "⚠️ 불러오기 실패";
+  }
 });
